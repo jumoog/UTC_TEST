@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,10 +9,6 @@ using ETM.WCCOA;
 
 namespace GettingStarted
 {
-    // This C# program provides the same functionality as the C++ template manager.
-    // it establishes connection to a project
-    // reads necessary information from the config File if available
-    // Connects on DPE1 and forwards value changes to DPE2
     class Program
     {
         static void Main(string[] args)
@@ -32,14 +28,23 @@ namespace GettingStarted
             var dateTime = DateTime.Now;
             var dateTimeUTC = dateTime;
             dateTimeUTC = DateTime.SpecifyKind(dateTimeUTC, DateTimeKind.Utc);
-
+            // Output UTC Time
             Console.WriteLine("test_utc is kind <{0}> <{1}>", dateTimeUTC.Kind, dateTimeUTC.ToString());
+            // Output Local Time
             Console.WriteLine("test_localtime is kind <{0}> <{1}>", dateTime.Kind, dateTime.ToString());
 
+            // create UTC Time Test DP
             processModel.CreateDp("test_utc", "ExampleDP_Int");
+            // create Local Time Test DP
             processModel.CreateDp("test_localtime", "ExampleDP_Int");
 
+            // set Value to 1 
+            // Time gets converted from UTC -> local time
+            // Time: 2019-05-03T19:21:21+00:00 !! BUG !!
             valueAccess.SetDpValue(dateTimeUTC, "test_utc.", 1);
+            // set Value to 1
+            // Time gets converted to UTC by WinCC OA 
+            // Time: 2019-05-03T19:19:21+00:00
             valueAccess.SetDpValue(dateTime, "test_localtime.", 1);
 
         }
