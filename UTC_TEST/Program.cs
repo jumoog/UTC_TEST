@@ -39,7 +39,7 @@ namespace GettingStarted
             processModel.CreateDp("test_localtime", "ExampleDP_Int");
 
             // set Value to 1 
-            // Time gets converted from UTC -> local time
+            // Time gets converted from UTC -> local time -> to UTC by WinCC OA 
             // Time: 2019-05-03T19:21:21+00:00 !! BUG !!
             valueAccess.SetDpValue(dateTimeUTC, "test_utc.", 1);
             // set Value to 1
